@@ -4,12 +4,11 @@ module.exports = {
 		'./src/components/**/*.{js,ts,jsx,tsx}',
 		'./src/utils/**/*.{js,ts,jsx,tsx}'
 	],
-	theme: {
-	},
+	theme: {},
 	plugins: [
 		require('@catppuccin/tailwindcss')({
 			prefix: 'ctp',
 			defaultFlavour: 'mocha'
-		  }),,
-	  ]
+		})
+	]
 };
