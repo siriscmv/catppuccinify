@@ -1,1 +1,3 @@
-Boilerplate template for NextJS + TailwindCSS
+# Catppuccinify
+
+- A simple tool to catppuccinify images

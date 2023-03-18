@@ -5,12 +5,11 @@ module.exports = {
 		'./src/utils/**/*.{js,ts,jsx,tsx}'
 	],
 	theme: {
-		extend: {
-			colors: {
-				slate: '#161616',
-				primary: '#00FFAA'
-			}
-		}
 	},
-	plugins: []
+	plugins: [
+		require('@catppuccin/tailwindcss')({
+			prefix: 'ctp',
+			defaultFlavour: 'mocha'
+		  }),,
+	  ]
 };

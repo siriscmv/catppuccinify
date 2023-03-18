@@ -1,5 +1,5 @@
 {
-	"name": "nextjs-tw-boilerplate",
+	"name": "catppuccinify",
 	"version": "0.1.0",
 	"scripts": {
 		"next:dev": "next dev",
@@ -14,9 +14,11 @@
 		"next": "13.2.4",
 		"nprogress": "^0.2.0",
 		"react": "18.2.0",
-		"react-dom": "18.2.0"
+		"react-dom": "18.2.0",
+		"wasm-imagemagick": "^1.2.8"
 	},
 	"devDependencies": {
+		"@catppuccin/tailwindcss": "^0.1.1",
 		"@types/node": "18.15.3",
 		"@types/nprogress": "^0.2.0",
 		"@types/react": "18.0.28",
