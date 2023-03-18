@@ -1,1 +1,1 @@
-cp ./out/magick* ./out/_next/static/chunks/.
+cp ./public/magick* ./out/_next/static/chunks/.

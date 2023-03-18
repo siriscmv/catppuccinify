@@ -9,7 +9,7 @@
 		"fmt": "npx prettier --write src",
 		"start": "next start",
 		"lint": "next lint",
-		"export": "next export"
+		"export": "pnpm build && next export && ./build.sh"
 	},
 	"dependencies": {
 		"file-saver": "^2.0.5",
