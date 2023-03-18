@@ -1,0 +1,1 @@
+cp ./out/magick* ./out/_next/static/chunks/.

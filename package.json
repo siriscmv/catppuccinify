@@ -8,15 +8,16 @@
 		"build": "npx tailwindcss -i ./src/styles/tw.css -o ./src/styles/globals.css --minify && next build",
 		"fmt": "npx prettier --write src",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"export": "next export"
 	},
 	"dependencies": {
-		"@imagemagick/magick-wasm": "^0.0.19",
 		"file-saver": "^2.0.5",
 		"next": "13.2.4",
 		"nprogress": "^0.2.0",
 		"react": "18.2.0",
-		"react-dom": "18.2.0"
+		"react-dom": "18.2.0",
+		"wasm-imagemagick": "^1.2.8"
 	},
 	"devDependencies": {
 		"@catppuccin/tailwindcss": "^0.1.1",
