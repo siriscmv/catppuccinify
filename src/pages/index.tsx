@@ -44,7 +44,7 @@ const Home: NextPage = () => {
 	};
 
 	return (
-		<div className={`ctp-${theme} transition-colors duration-200 ease-in-out`}>
+		<div className={`ctp-${theme}`}>
 			<div className='hidden ctp-latte ctp-frappe ctp-macchiato ctp-mocha' />
 			<div className='flex flex-col text-ctp-text bg-ctp-crust min-h-screen items-center justify-center text-center'>
 				<div className='flex flex-col p-4'>
