@@ -11,6 +11,37 @@ const Home: NextPage = () => {
 	const [theme, setTheme] = useState<ThemeType>('mocha');
 	const [state, setState] = useState<'loading' | 'done' | null>(null);
 
+	const run = async () => {
+		setState('loading');
+		const { Call } = await import('wasm-imagemagick');
+
+		//@ts-ignore
+		if (document.getElementById('input')?.files.length !== 1) return;
+		//@ts-ignore
+		const file = document.getElementById('input')!.files[0] as File;
+
+		const arrayBuffer = await file.arrayBuffer();
+		const sourceBytes = new Uint8Array(arrayBuffer);
+
+		const fileName = `src.${file.name.split('.').pop()}`;
+		const outputFileName = `${theme}-${file.name}`;
+
+		const files = [
+			{ name: fileName, content: sourceBytes },
+			{
+				name: 'hald-clut.png',
+				content: new Uint8Array(await (await fetch(`/luts/${theme}-hald-clut.png`)).arrayBuffer())
+			}
+		];
+		const command = [fileName, 'hald-clut.png', '-hald-clut', outputFileName];
+
+		const processedFiles = await Call(files, command);
+		setState('done');
+
+		const out = processedFiles[0]['blob'];
+		saveAs(out, outputFileName);
+	};
+
 	return (
 		<div className={`ctp-${theme}`}>
 			<div className='hidden ctp-latte ctp-frappe ctp-macchiato ctp-mocha' />
@@ -41,39 +72,7 @@ const Home: NextPage = () => {
 							<input accept='.png,.gif,.jpeg,.jpg' className='p-2' id='input' type='file' />
 						</div>
 						<div className='flex flex-col'>
-							<button
-								className='p-2 m-2 bg-ctp-surface0 font-bold text-2xl rounded-md'
-								onClick={async () => {
-									setState('loading');
-									const { Call } = await import('wasm-imagemagick');
-
-									//@ts-ignore
-									if (document.getElementById('input')?.files.length !== 1) return;
-									//@ts-ignore
-									const file = document.getElementById('input')!.files[0] as File;
-
-									const arrayBuffer = await file.arrayBuffer();
-									const sourceBytes = new Uint8Array(arrayBuffer);
-
-									const fileName = `src.${file.name.split('.').pop()}`;
-									const outputFileName = `${theme}-${file.name}`;
-
-									const files = [
-										{ name: fileName, content: sourceBytes },
-										{
-											name: 'hald-clut.png',
-											content: new Uint8Array(await (await fetch(`/luts/${theme}-hald-clut.png`)).arrayBuffer())
-										}
-									];
-									const command = [fileName, 'hald-clut.png', '-hald-clut', outputFileName];
-
-									const processedFiles = await Call(files, command);
-									setState('done');
-
-									const out = processedFiles[0]['blob'];
-									saveAs(out, outputFileName);
-								}}
-							>
+							<button className='p-2 m-2 bg-ctp-surface0 font-bold text-2xl rounded-md' onClick={run}>
 								Catppuccinify!
 							</button>
 							{state === 'loading' ? 'Processing...' : null}
