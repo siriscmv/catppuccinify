@@ -9,34 +9,35 @@ type ThemeType = (typeof THEMES)[number];
 
 const Home: NextPage = () => {
 	const [theme, setTheme] = useState<ThemeType>('mocha');
-	const [state, setState] = useState<'loading' | 'done' | null>(null);
+	const [state, setState] = useState<string | null>(null);
 
 	const run = async () => {
-		setState('loading');
+		setState('Importing WASM...');
 		const { Call } = await import('wasm-imagemagick');
 
 		//@ts-ignore
-		if (document.getElementById('input')?.files.length !== 1) return;
+		if (document.getElementById('input')?.files.length !== 1) return setState('No Input file found!');
 		//@ts-ignore
 		const file = document.getElementById('input')!.files[0] as File;
-
-		const arrayBuffer = await file.arrayBuffer();
-		const sourceBytes = new Uint8Array(arrayBuffer);
 
 		const fileName = `src.${file.name.split('.').pop()}`;
 		const outputFileName = `${theme}-${file.name}`;
 
-		const files = [
-			{ name: fileName, content: sourceBytes },
-			{
-				name: 'hald-clut.png',
-				content: new Uint8Array(await (await fetch(`/luts/${theme}-hald-clut.png`)).arrayBuffer())
-			}
-		];
+		setState('Creating input buffer...');
+		const input = { name: fileName, content: new Uint8Array(await file.arrayBuffer()) };
+
+		setState('Creating LUT buffer...');
+		const lut = {
+			name: 'hald-clut.png',
+			content: new Uint8Array(await (await fetch(`/luts/${theme}-hald-clut.png`)).arrayBuffer())
+		};
+
+		const files = [input, lut];
 		const command = [fileName, 'hald-clut.png', '-hald-clut', outputFileName];
 
+		setState('Applying LUT...');
 		const processedFiles = await Call(files, command);
-		setState('done');
+		setState('Done!');
 
 		const out = processedFiles[0]['blob'];
 		saveAs(out, outputFileName);
@@ -47,15 +48,15 @@ const Home: NextPage = () => {
 			<div className='hidden ctp-latte ctp-frappe ctp-macchiato ctp-mocha' />
 			<div className='flex flex-col text-ctp-text bg-ctp-crust min-h-screen items-center justify-center text-center'>
 				<div className='flex flex-col p-4'>
-					<div>
-						<label htmlFor='theme' className='my-4 p-2 text-xl font-bold'>
+					<div className='flex flex-col items-center'>
+						<label htmlFor='theme' className='my-2 p-2 text-xl font-bold'>
 							Choose theme:
 						</label>
 						<select
 							value={theme}
 							onChange={(e) => setTheme(e.target.value as ThemeType)}
 							id='theme'
-							className='h-10 w-72 min-w-[200px] bg-ctp-surface0 rounded-md focus:ring-ctp-blue'
+							className='h-10 w-2/3 bg-ctp-surface0 rounded-md focus:ring-ctp-blue'
 						>
 							{THEMES.map((theme) => (
 								<option key={theme.toLowerCase()} value={theme.toLowerCase()}>
@@ -64,18 +65,18 @@ const Home: NextPage = () => {
 							))}
 						</select>
 					</div>
-					<div className='flex flex-col m-6 p-6'>
-						<div className='flex flex-row items-around'>
-							<label className='p-2 text-xl font-bold' htmlFor='input'>
+					<div className='flex flex-col m-4 p-4'>
+						<div className='flex flex-col'>
+							<label className='my-2 p-2 text-xl font-bold' htmlFor='input'>
 								Choose image:
 							</label>
-							<input accept='.png,.gif,.jpeg,.jpg' className='p-2' id='input' type='file' />
+							<input accept='.png,.gif,.jpeg,.jpg' id='input' type='file' />
 						</div>
 						<div className='flex flex-col'>
-							<button className='p-2 m-2 bg-ctp-surface0 font-bold text-2xl rounded-md' onClick={run}>
+							<button className='p-2 m-2 mt-12 bg-ctp-surface0 font-bold text-2xl rounded-md' onClick={run}>
 								Catppuccinify!
 							</button>
-							{state === 'loading' ? 'Processing...' : null}
+							{state ? state : null}
 						</div>
 					</div>
 				</div>
