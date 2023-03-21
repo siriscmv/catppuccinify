@@ -44,7 +44,7 @@ const Home: NextPage = () => {
 	};
 
 	return (
-		<div className={`ctp-${theme}`}>
+		<div className={`ctp-${theme} transition-colors duration-200 ease-in-out`}>
 			<div className='hidden ctp-latte ctp-frappe ctp-macchiato ctp-mocha' />
 			<div className='flex flex-col text-ctp-text bg-ctp-crust min-h-screen items-center justify-center text-center'>
 				<div className='flex flex-col p-4'>
@@ -74,7 +74,7 @@ const Home: NextPage = () => {
 						</div>
 						<div className='flex flex-col'>
 							<button
-								className='p-2 m-2 mt-12 bg-ctp-surface0 border-2 border-ctp-crust transition-colors duration-200 ease-in-out hover:border-ctp-mauve font-bold text-2xl rounded-md'
+								className='p-2 m-2 mt-12 bg-ctp-surface0 border-2 border-ctp-crust hover:border-ctp-mauve font-bold text-2xl rounded-md'
 								onClick={run}
 							>
 								Catppuccinify!
