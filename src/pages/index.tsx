@@ -56,7 +56,7 @@ const Home: NextPage = () => {
 							value={theme}
 							onChange={(e) => setTheme(e.target.value as ThemeType)}
 							id='theme'
-							className='h-10 w-2/3 bg-ctp-surface0 rounded-md focus:ring-ctp-blue'
+							className='h-10 w-2/3 bg-ctp-surface0 rounded-md'
 						>
 							{THEMES.map((theme) => (
 								<option key={theme.toLowerCase()} value={theme.toLowerCase()}>
@@ -73,7 +73,7 @@ const Home: NextPage = () => {
 							<input accept='.png,.gif,.jpeg,.jpg' id='input' type='file' />
 						</div>
 						<div className='flex flex-col'>
-							<button className='p-2 m-2 mt-12 bg-ctp-surface0 font-bold text-2xl rounded-md' onClick={run}>
+							<button className='p-2 m-2 mt-12 bg-ctp-surface0 border-2 border-ctp-crust transition-colors duration-200 ease-in-out hover:border-ctp-mauve font-bold text-2xl rounded-md' onClick={run}>
 								Catppuccinify!
 							</button>
 							{state ? state : null}
