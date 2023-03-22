@@ -34,7 +34,7 @@ const Home: NextPage = () => {
 
 			setState((s) => {
 				const arr = [...s];
-				arr[i] = 'Creating input buffer...';
+				arr[i] = `${fileName} - Creating input buffer...`;
 				return arr;
 			});
 
@@ -46,13 +46,13 @@ const Home: NextPage = () => {
 
 				setState((s) => {
 					const arr = [...s];
-					arr[i] = 'Applying LUT...';
+					arr[i] = `${fileName} - Applying LUT...`;
 					return arr;
 				});
 				Call(files, command).then((processedFiles) => {
 					setState((s) => {
 						const arr = [...s];
-						arr[i] = 'Done!';
+						arr[i] = `${fileName} - Done!`;
 						return arr;
 					});
 
@@ -99,8 +99,8 @@ const Home: NextPage = () => {
 							>
 								Catppuccinify!
 							</button>
-							<div className='flex flex-col'>{state ? state.map((s, i) => <span key={i}>{s}</span>) : null}</div>
 						</div>
+						<div className='flex flex-col'>{state ? state.map((s, i) => <span key={i}>{s}</span>) : null}</div>
 					</div>
 				</div>
 			</div>
