@@ -9,38 +9,58 @@ type ThemeType = (typeof THEMES)[number];
 
 const Home: NextPage = () => {
 	const [theme, setTheme] = useState<ThemeType>('mocha');
-	const [state, setState] = useState<string | null>(null);
+	const [state, setState] = useState<string[]>([]);
 
 	const run = async () => {
-		setState('Importing WASM...');
+		setState(['Importing WASM...']);
 		const { Call } = await import('wasm-imagemagick');
 
 		//@ts-ignore
-		if (document.getElementById('input')?.files.length !== 1) return setState('No Input file found!');
+		if (document.getElementById('input')?.files.length === 0) return setState(['No Input file found!']);
 		//@ts-ignore
-		const file = document.getElementById('input')!.files[0] as File;
+		const files = Array.from(document.getElementById('input')!.files) as File[];
 
-		const fileName = `src.${file.name.split('.').pop()}`;
-		const outputFileName = `${theme}-${file.name}`;
-
-		setState('Creating input buffer...');
-		const input = { name: fileName, content: new Uint8Array(await file.arrayBuffer()) };
-
-		setState('Creating LUT buffer...');
+		setState(['Creating LUT buffer...']);
 		const lut = {
 			name: 'hald-clut.png',
 			content: new Uint8Array(await (await fetch(`/luts/${theme}-hald-clut.png`)).arrayBuffer())
 		};
 
-		const files = [input, lut];
-		const command = [fileName, 'hald-clut.png', '-hald-clut', outputFileName];
+		setState(files.map(() => ''));
 
-		setState('Applying LUT...');
-		const processedFiles = await Call(files, command);
-		setState('Done!');
+		files.forEach((file, i) => {
+			const fileName = `src.${file.name.split('.').pop()}`;
+			const outputFileName = `${theme}-${file.name}`;
 
-		const out = processedFiles[0]['blob'];
-		saveAs(out, outputFileName);
+			setState((s) => {
+				const arr = [...s];
+				arr[i] = 'Creating input buffer...';
+				return arr;
+			});
+
+			file.arrayBuffer().then((buffer) => {
+				const input = { name: fileName, content: new Uint8Array(buffer) };
+
+				const files = [input, lut];
+				const command = [fileName, 'hald-clut.png', '-hald-clut', outputFileName];
+
+				setState((s) => {
+					const arr = [...s];
+					arr[i] = 'Applying LUT...';
+					return arr;
+				});
+				Call(files, command).then((processedFiles) => {
+					setState((s) => {
+						const arr = [...s];
+						arr[i] = 'Done!';
+						return arr;
+					});
+
+					const out = processedFiles[0]['blob'];
+					saveAs(out, outputFileName);
+				});
+			});
+		});
 	};
 
 	return (
@@ -70,7 +90,7 @@ const Home: NextPage = () => {
 							<label className='my-2 p-2 text-xl font-bold' htmlFor='input'>
 								Choose image:
 							</label>
-							<input accept='.png,.gif,.jpeg,.jpg' id='input' type='file' />
+							<input name='files[]' multiple accept='.png,.jpeg,.jpg' id='input' type='file' />
 						</div>
 						<div className='flex flex-col'>
 							<button
@@ -79,7 +99,7 @@ const Home: NextPage = () => {
 							>
 								Catppuccinify!
 							</button>
-							{state ? state : null}
+							<div className='flex flex-col'>{state ? state.map((s, i) => <span key={i}>{s}</span>) : null}</div>
 						</div>
 					</div>
 				</div>

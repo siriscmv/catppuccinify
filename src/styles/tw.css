@@ -10,6 +10,6 @@ body {
 
 @layer base {
 	* {
-		@apply transition-colors duration-100 ease-in-out
+		@apply transition-colors duration-100 ease-in-out;
 	}
 }
