@@ -34,7 +34,7 @@ const Home: NextPage = () => {
 
 			setState((s) => {
 				const arr = [...s];
-				arr[i] = `${fileName} - Creating input buffer...`;
+				arr[i] = `${file.name} - Creating input buffer...`;
 				return arr;
 			});
 
@@ -46,13 +46,13 @@ const Home: NextPage = () => {
 
 				setState((s) => {
 					const arr = [...s];
-					arr[i] = `${fileName} - Applying LUT...`;
+					arr[i] = `${file.name} - Applying LUT...`;
 					return arr;
 				});
 				Call(files, command).then((processedFiles) => {
 					setState((s) => {
 						const arr = [...s];
-						arr[i] = `${fileName} - Done!`;
+						arr[i] = `${file.name} - Done!`;
 						return arr;
 					});
 
