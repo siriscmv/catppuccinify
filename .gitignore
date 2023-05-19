@@ -35,7 +35,4 @@ yarn-error.log*
 *.tsbuildinfo
 
 .env
-package-lock.json
 src/styles/globals.css
-
-*lock*
