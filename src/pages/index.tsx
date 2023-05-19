@@ -70,7 +70,7 @@ const Home: NextPage = () => {
 			<div className='flex flex-col text-ctp-text bg-ctp-crust min-h-screen items-center justify-center text-center'>
 				<div className='flex flex-col p-4'>
 					<div className='flex flex-col items-center'>
-						<Link className='hover:underline text-2xl font-medium my-4' href='https://github.com/Siris01/catppuccinify'>
+						<Link target='_blank' className='hover:underline text-ctp-mauve text-2xl font-medium my-4' href='https://github.com/Siris01/catppuccinify'>
 							View on github
 						</Link>
 						<label htmlFor='theme' className='my-2 p-2 text-xl font-bold'>
