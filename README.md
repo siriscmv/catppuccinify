@@ -5,4 +5,5 @@
 
 ## Credits
 
+- [Catppuccin](https://github.com/catppuccin/catppuccin) theme
 - [Gingeh](https://github.com/Gingeh)'s LUTs
