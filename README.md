@@ -1,6 +1,6 @@
 # Catppuccinify
 
-- A simple tool to catppuccinify images
+- A simple tool to apply LUTs to images
 - Run completely on the browser using WASM
 
 ## Credits
